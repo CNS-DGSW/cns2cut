@@ -1,89 +1,164 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+// import Head from "next/head";
+// import styles from "../styles/Home.module.scss";
+import "../../App.css";
+import "@tensorflow/tfjs-core";
+import "@tensorflow/tfjs-converter";
+import "@tensorflow/tfjs-backend-webgl";
+import * as bodyPix from "@tensorflow-models/body-pix";
+import Webcam from "react-webcam";
 
-const CONSTRAINTS = { video: true };
+function App() {
+  // ---
 
-const FilmingCom = () => {
-  const videoRef = useRef(null);
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const [isFin, setisFin] = useState(false);
+
   const [image, setImage] = useState([]);
-  const [state, setState] = useState(false);
 
-  useEffect(() => {
-    let time;
-    if (!state) {
-      let a = 10;
-      time = setInterval(() => {
-        if (a === 0) {
-          snapshot();
-          clearInterval(time);
-        }
-        console.log(a--);
-      }, 1000);
-    }
-  }, [state]);
+  const [bodypixnet, setBodypixnet] = useState();
+  const [prevClassName, setPrevClassName] = useState();
 
-  useEffect(() => {
-    if (state) {
-      setTimeout(() => {
-        setState(false);
-      }, 1000);
-    }
-  }, [state]);
+  const drawimage = async (webcam, context, canvas) => {
+    // create tempCanvas
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = webcam.videoWidth;
+    tempCanvas.height = webcam.videoHeight;
+    const tempCtx = tempCanvas.getContext("2d");
+    const segmentation = await bodypixnet.segmentPerson(webcam);
+    const mask = bodyPix.toMask(segmentation);
 
-  useEffect(() => {
-    if (!state) {
-      startVideo();
-    }
-  }, [state]);
-
-  const startVideo = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia(CONSTRAINTS);
-    if (videoRef && videoRef.current && !videoRef.current.srcObject) {
-      videoRef.current.srcObject = stream;
-    }
+    (async function drawMask() {
+      requestAnimationFrame(drawMask);
+      // draw mask on tempCanvas
+      const segmentation = await bodypixnet.segmentPerson(webcam);
+      const mask = bodyPix.toMask(segmentation);
+      tempCtx.putImageData(mask, 0, 0);
+      // draw original image
+      context.drawImage(webcam, 0, 0, canvas.width, canvas.height);
+      // use destination-out, then only masked area will be removed
+      context.save();
+      context.globalCompositeOperation = "destination-out";
+      context.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+      context.restore();
+    })();
   };
 
+  const clickHandler = async (className) => {
+    const webcam = webcamRef.current.video;
+    const canvas = canvasRef.current;
+    webcam.width = canvas.width = webcam.videoWidth;
+    webcam.height = canvas.height = webcam.videoHeight;
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.classList.add(className);
+    if (bodypixnet) {
+      drawimage(webcam, context, canvas);
+    }
+
+    if (prevClassName) {
+      canvas.classList.remove(prevClassName);
+      setPrevClassName(className);
+    } else {
+      setPrevClassName(className);
+    }
+    canvas.classList.add(className);
+  };
+
+  // --------
+
+  const videoConstraints = {
+    // width:0,
+    // height:0,
+    width: 1280,
+    height: 720,
+    facingMode: "user",
+  };
+
+  function makeInterval() {}
+
   function snapshot() {
-    var videoElement = document.querySelector("video");
-    var canvasElement = document.querySelector("canvas");
-    var context = canvasElement.getContext("2d");
+    // console.log(webcamRef.current)
+    // console.log(canvasRef.current)
 
-    context.drawImage(
-      videoElement,
-      0,
-      0,
-      videoElement.videoWidth,
-      videoElement.videoHeight
-    );
+    // var context = canvasRef.current.getContext("2d");
 
-    setImage([...image, canvasElement.toDataURL("image/webp")]);
-    setTimeout(() => {
-      setState(true);
-    }, 100);
-
-    // let pixels = context.getImageData(
+    // context.drawImage(
+    //   webcamRef.current,
     //   0,
     //   0,
-    //   canvasElement.width,
-    //   canvasElement.height
+    //   webcamRef.current.videoWidth,
+    //   webcamRef.current.videoHeight
     // );
 
-    // document.querySelector("img").src = canvasElement.toDataURL("image/webp");
+    if (image.length < 1) {
+      console.log("canvasRef", canvasRef);
+      console.log("canvasRef.current", canvasRef.current);
+      console.log(
+        "canvasRef.current.toDataURL",
+        canvasRef.current.toDataURL("image/webp")
+      );
+      console.log(
+        "canvasRef.current.toDataURL",
+        canvasRef.current.toDataURL("image/jpeg")
+      );
 
-    // document.querySelector("img").src = pixels;
+      setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
+    } else {
+      setisFin(true);
+      console.log("ㅎㅇ");
+    }
+
+    // setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
   }
 
-  return (
-    <>
-      {!state ? (
-        <div>
-          <video width={640} height={480} autoPlay ref={videoRef} />
-          <canvas style={{ display: "none" }} width={640} height={480}></canvas>
-        </div>
-      ) : (
-        image.map((v, index) => <img src={v} alt="" key={index} />)
-      )}
-    </>
-  );
-};
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
 
-export default FilmingCom;
+  useEffect(() => {
+    bodyPix.load().then((net) => {
+      setBodypixnet(net);
+    });
+  }, []);
+
+  return (
+    <div className="App">
+      <Webcam
+        ref={webcamRef}
+        audio={false}
+        // height={0}
+        // width={0}
+        width={1280}
+        height={720}
+        screenshotFormat="image/jpeg"
+        videoConstraints={videoConstraints}
+        className="webcam"
+      />
+      <canvas ref={canvasRef} className="canvas" />
+      <div className="buttons">
+        <button onClick={() => clickHandler("schoolMain")}>학교 운동장</button>
+        <button onClick={() => clickHandler("main")}>학교 본관 정문</button>
+        <button onClick={() => clickHandler("dgswback")}>학교 크로마키</button>
+        <button onClick={() => snapshot()}>
+          <h2>사진 촬영</h2>
+        </button>
+        {image.map((e, idx) => (
+          <img src={e} key={idx} width="200px" height="200px" />
+        ))}
+        {/* {
+              isFin &&
+              <>
+                {image.map((e, idx) => (
+                  <img src={e} key={idx} width="200px" height="200px" />
+                ))}
+              </>
+            } */}
+      </div>
+    </div>
+  );
+}
+
+export default App;
