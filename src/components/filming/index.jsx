@@ -145,17 +145,17 @@ function App() {
         <button onClick={() => snapshot()}>
           <h2>사진 촬영</h2>
         </button>
-        {image.map((e, idx) => (
+        {/* {image.map((e, idx) => (
           <img src={e} key={idx} width="200px" height="200px" />
-        ))}
-        {/* {
+        ))} */}
+        {
               isFin &&
-              <>
+              <div>
                 {image.map((e, idx) => (
                   <img src={e} key={idx} width="200px" height="200px" />
                 ))}
-              </>
-            } */}
+              </div>
+            }
       </div>
     </div>
   );
