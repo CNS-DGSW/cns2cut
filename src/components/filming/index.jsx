@@ -1,24 +1,39 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const CONSTRAINTS = { video: true };
 
 const FilmingCom = () => {
-  useEffect(() => {
-    let a = 10;
-    const time = setInterval(() => {
-      if (a === 0) {
-        snapshot();
-        clearInterval(time);
-      }
-      console.log(a--);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    startVideo();
-  }, []);
-
   const videoRef = useRef(null);
+  const [image, setImage] = useState([]);
+  const [state, setState] = useState(false);
+
+  useEffect(() => {
+    let time;
+    if (!state) {
+      let a = 10;
+      time = setInterval(() => {
+        if (a === 0) {
+          snapshot();
+          clearInterval(time);
+        }
+        console.log(a--);
+      }, 1000);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (state) {
+      setTimeout(() => {
+        setState(false);
+      }, 1000);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (!state) {
+      startVideo();
+    }
+  }, [state]);
 
   const startVideo = async () => {
     const stream = await navigator.mediaDevices.getUserMedia(CONSTRAINTS);
@@ -36,18 +51,38 @@ const FilmingCom = () => {
       videoElement,
       0,
       0,
-      videoElement.width,
-      videoElement.height
+      videoElement.videoWidth,
+      videoElement.videoHeight
     );
-    document.querySelector("img").src = canvasElement.toDataURL("image/webp");
+
+    setImage([...image, canvasElement.toDataURL("image/webp")]);
+    setTimeout(() => {
+      setState(true);
+    }, 100);
+
+    // let pixels = context.getImageData(
+    //   0,
+    //   0,
+    //   canvasElement.width,
+    //   canvasElement.height
+    // );
+
+    // document.querySelector("img").src = canvasElement.toDataURL("image/webp");
+
+    // document.querySelector("img").src = pixels;
   }
 
   return (
-    <div>
-      <video autoPlay ref={videoRef} />
-      <canvas width="320" height="240"></canvas>
-      <img src="" alt="" />
-    </div>
+    <>
+      {!state ? (
+        <div>
+          <video width={640} height={480} autoPlay ref={videoRef} />
+          <canvas style={{ display: "none" }} width={640} height={480}></canvas>
+        </div>
+      ) : (
+        image.map((v, index) => <img src={v} alt="" key={index} />)
+      )}
+    </>
   );
 };
 
