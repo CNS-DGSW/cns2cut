@@ -153,7 +153,6 @@ function App() {
 
   return (
     <>
-      {!isFin ? (
         <div className="App">
           <Webcam
             ref={webcamRef}
@@ -168,24 +167,24 @@ function App() {
           />
           <canvas ref={canvasRef} className="canvas" />
           <div className="buttons">
-            <button onClick={() => clickHandler(dgswback)}>학교 운동장</button>
+            <button onClick={() => clickHandler(main)}>학교 운동장</button>
             <button onClick={() => clickHandler(school)}>학교 본관 정문</button>
-            <button onClick={() => clickHandler(main)}>학교 크로마키</button>
+            <button onClick={() => clickHandler(dgswback)}>학교 크로마키</button>
             <button onClick={() => snapshot()}>
               <h2>사진 촬영</h2>
             </button>
           </div>
-          {/* {image.map((e, idx) => (
-          <img src={e} key={idx} width="200px" height="200px" />
-        ))} */}
         </div>
-      ) : (
-        <div>
+
+        {
+          isFin && 
+        <div className="modal" >
           {image.map((e, idx) => (
             <img src={e} key={idx} />
           ))}
         </div>
-      )}
+        }
+
     </>
   );
 }
