@@ -21,12 +21,26 @@ function App() {
   const [bodypixnet, setBodypixnet] = useState();
   const [prevClassName, setPrevClassName] = useState();
 
+  const [img, setimg] = useState(new Image())
+  const [isload, setIsload] = useState(false)
+  useEffect(() => {
+    const image = new Image()
+    image.src = "./dgswback.jpg";
+    image.onload = () => {setimg(image); setIsload(true)}
+  }, []);
+
   const drawimage = async (webcam, context, canvas) => {
     // create tempCanvas
+    const sexCanvas = document.createElement("canvas");
+    sexCanvas.width = canvas.width
+    sexCanvas.height = canvas.height
+    const sexCtx = sexCanvas.getContext("2d")
+
     const tempCanvas = document.createElement("canvas");
     tempCanvas.width = webcam.videoWidth;
     tempCanvas.height = webcam.videoHeight;
     const tempCtx = tempCanvas.getContext("2d");
+
     const segmentation = await bodypixnet.segmentPerson(webcam);
     const mask = bodyPix.toMask(segmentation);
 
@@ -37,12 +51,16 @@ function App() {
       const mask = bodyPix.toMask(segmentation);
       tempCtx.putImageData(mask, 0, 0);
       // draw original image
-      context.drawImage(webcam, 0, 0, canvas.width, canvas.height);
+      sexCtx.drawImage(webcam, 0, 0, canvas.width, canvas.height);
       // use destination-out, then only masked area will be removed
-      context.save();
-      context.globalCompositeOperation = "destination-out";
-      context.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
-      context.restore();
+      sexCtx.save();
+      sexCtx.globalCompositeOperation = "destination-out";
+      sexCtx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+      sexCtx.restore();
+
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      if(isload) {context.drawImage(img, 0, 0, canvas.width, canvas.height)}
+      context.drawImage(sexCanvas, 0, 0, canvas.width, canvas.height)
     })();
   };
 
