@@ -11,6 +11,7 @@ import Webcam from "react-webcam";
 import dgswback from "../../assets/dgswback.jpg";
 import main from "../../assets/main.jpg";
 import school from "../../assets/school.jpg";
+import cut from "../../assets/cut.jpeg";
 
 function App() {
   // ---
@@ -180,10 +181,13 @@ function App() {
         ))} */}
         </div>
       ) : (
-        <div>
-          {image.map((e, idx) => (
-            <img src={e} key={idx} />
-          ))}
+        <div className="absolute">
+          <div className="cut">
+            {image.map((e, idx) => (
+              <img src={e} key={idx} />
+            ))}
+          </div>
+          <img className="img-frame" src={cut} alt="" />
         </div>
       )}
     </>

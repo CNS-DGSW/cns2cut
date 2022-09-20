@@ -73,6 +73,38 @@ button:last-child {
 } */
 
 img {
-  width: 640px;
-  height: 480px;
+  width: 335px;
+  height: 245px;
+}
+
+.cut {
+  margin: 0 auto;
+  width: 600px;
+  height: 650px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 13px;
+
+  position: absolute;
+  top: -25px;
+  left: 25px;
+}
+
+.img-frame {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 500px);
+  z-index: -1;
+
+  width: 600px;
+  height: 650px;
+}
+
+.absolute {
+  position: relative;
 }
