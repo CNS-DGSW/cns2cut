@@ -1,62 +1,60 @@
-.none{
+.none {
   display: "none";
 }
 
-.App{
-  width:100%;
+.App {
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: row-reverse;
 }
 
-.isFinModal{
-  width:100%;
-  height:100vh;
+.isFinModal {
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.webcam{
+.webcam {
   position: absolute;
-  left:0px;
-  top:0px;
-  height:100vh;
-  width:70%
+  left: 0px;
+  top: 0px;
+  height: 100vh;
+  width: 70%;
 }
 
-.canvas{
+.canvas {
   position: absolute;
-  left:0px;
-  top:0px;
-  width:70vw;
-  height:100vh;
-  background-size:cover ;
+  left: 0px;
+  top: 0px;
+  width: 70vw;
+  height: 100vh;
+  background-size: cover;
 }
 
-
-.buttons{
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height:100vh;
-  width:30vw;
+  height: 100vh;
+  width: 30vw;
 }
 
-
-button{
-  cursor:pointer;
-  width:200px;
-  height:50px;
+button {
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
   outline: none;
   border: 0px;
   border-radius: 15px;
   background-color: #0095f6;
-  color:white;
+  color: white;
 }
-button:last-child{
-  width:200px;
-  height:100px;
+button:last-child {
+  width: 200px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,3 +71,8 @@ button:last-child{
 .dgswback{
   background-image:url("./assets/dgswback.jpg");
 } */
+
+img {
+  width: 640px;
+  height: 480px;
+}

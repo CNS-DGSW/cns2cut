@@ -8,6 +8,10 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as bodyPix from "@tensorflow-models/body-pix";
 import Webcam from "react-webcam";
 
+import dgswback from "../../assets/dgswback.jpg";
+import main from "../../assets/main.jpg";
+import school from "../../assets/school.jpg";
+
 function App() {
   // ---
 
@@ -21,20 +25,24 @@ function App() {
   const [bodypixnet, setBodypixnet] = useState();
   const [prevClassName, setPrevClassName] = useState();
 
-  const [img, setimg] = useState(new Image())
-  const [isload, setIsload] = useState(false)
+  const [img, setimg] = useState(new Image());
+  const [isload, setIsload] = useState(false);
+  const [url, setUrl] = useState(school);
   useEffect(() => {
-    const image = new Image()
-    image.src = "./dgswback.jpg";
-    image.onload = () => {setimg(image); setIsload(true)}
-  }, []);
+    const image = new Image();
+    image.src = url;
+    image.onload = () => {
+      setimg(image);
+      setIsload(true);
+    };
+  }, [url]);
 
   const drawimage = async (webcam, context, canvas) => {
     // create tempCanvas
     const sexCanvas = document.createElement("canvas");
-    sexCanvas.width = canvas.width
-    sexCanvas.height = canvas.height
-    const sexCtx = sexCanvas.getContext("2d")
+    sexCanvas.width = canvas.width;
+    sexCanvas.height = canvas.height;
+    const sexCtx = sexCanvas.getContext("2d");
 
     const tempCanvas = document.createElement("canvas");
     tempCanvas.width = webcam.videoWidth;
@@ -58,13 +66,16 @@ function App() {
       sexCtx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
       sexCtx.restore();
 
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      if(isload) {context.drawImage(img, 0, 0, canvas.width, canvas.height)}
-      context.drawImage(sexCanvas, 0, 0, canvas.width, canvas.height)
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (isload) {
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+      context.drawImage(sexCanvas, 0, 0, canvas.width, canvas.height);
     })();
   };
 
   const clickHandler = async (className) => {
+    // setIsload(false);
     const webcam = webcamRef.current.video;
     const canvas = canvasRef.current;
     webcam.width = canvas.width = webcam.videoWidth;
@@ -78,9 +89,9 @@ function App() {
 
     if (prevClassName) {
       canvas.classList.remove(prevClassName);
-      setPrevClassName(className);
+      setUrl(className);
     } else {
-      setPrevClassName(className);
+      setUrl(className);
     }
     canvas.classList.add(className);
   };
@@ -111,29 +122,27 @@ function App() {
     //   webcamRef.current.videoHeight
     // );
 
-    if (image.length < 1) {
-      console.log("canvasRef", canvasRef);
-      console.log("canvasRef.current", canvasRef.current);
-      console.log(
-        "canvasRef.current.toDataURL",
-        canvasRef.current.toDataURL("image/webp")
-      );
-      console.log(
-        "canvasRef.current.toDataURL",
-        canvasRef.current.toDataURL("image/jpeg")
-      );
+    console.log("canvasRef", canvasRef);
+    console.log("canvasRef.current", canvasRef.current);
+    console.log(
+      "canvasRef.current.toDataURL",
+      canvasRef.current.toDataURL("image/webp")
+    );
+    console.log(
+      "canvasRef.current.toDataURL",
+      canvasRef.current.toDataURL("image/jpeg")
+    );
 
-      setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
-    } else {
-      setisFin(true);
-      console.log("ㅎㅇ");
-    }
+    setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
 
     // setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
   }
 
   useEffect(() => {
     console.log(image);
+    if (image.length === 2) {
+      setisFin(true);
+    }
   }, [image]);
 
   useEffect(() => {
@@ -143,39 +152,41 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Webcam
-        ref={webcamRef}
-        audio={false}
-        // height={0}
-        // width={0}
-        width={1280}
-        height={720}
-        screenshotFormat="image/jpeg"
-        videoConstraints={videoConstraints}
-        className="webcam"
-      />
-      <canvas ref={canvasRef} className="canvas" />
-      <div className="buttons">
-        <button onClick={() => clickHandler("schoolMain")}>학교 운동장</button>
-        <button onClick={() => clickHandler("main")}>학교 본관 정문</button>
-        <button onClick={() => clickHandler("dgswback")}>학교 크로마키</button>
-        <button onClick={() => snapshot()}>
-          <h2>사진 촬영</h2>
-        </button>
-        {/* {image.map((e, idx) => (
+    <>
+      {!isFin ? (
+        <div className="App">
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            // height={0}
+            // width={0}
+            width={1280}
+            height={720}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            className="webcam"
+          />
+          <canvas ref={canvasRef} className="canvas" />
+          <div className="buttons">
+            <button onClick={() => clickHandler(dgswback)}>학교 운동장</button>
+            <button onClick={() => clickHandler(school)}>학교 본관 정문</button>
+            <button onClick={() => clickHandler(main)}>학교 크로마키</button>
+            <button onClick={() => snapshot()}>
+              <h2>사진 촬영</h2>
+            </button>
+          </div>
+          {/* {image.map((e, idx) => (
           <img src={e} key={idx} width="200px" height="200px" />
         ))} */}
-        {
-              isFin &&
-              <div>
-                {image.map((e, idx) => (
-                  <img src={e} key={idx} width="200px" height="200px" />
-                ))}
-              </div>
-            }
-      </div>
-    </div>
+        </div>
+      ) : (
+        <div>
+          {image.map((e, idx) => (
+            <img src={e} key={idx} />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
