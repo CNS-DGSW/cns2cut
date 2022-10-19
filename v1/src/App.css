@@ -107,7 +107,8 @@ img {
 .img-frame {
   position: absolute;
   top: 0;
-  left: calc(50% - 500px);
+  left:30px;
+  /* left: calc(50% - 500px); */
   z-index: -1;
 
   width: 600px;
