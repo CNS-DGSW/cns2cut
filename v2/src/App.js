@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import * as A from "./App.style"
-import MainPage from "./pages/main"
-import TakedPage from "./pages/taked"
+import MainPage from "./components/main"
+import TakedPage from "./components/taked"
 
 function App() {
   return (

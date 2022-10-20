@@ -28,14 +28,14 @@ function App() {
   const [bodypixnet, setBodypixnet] = useState();
   const [prevClassName, setPrevClassName] = useState();
 
-  const [img, setimg] = useState(new Image());
+  const [backImg, setBackImg] = useState(new Image());
   const [isload, setIsload] = useState(false);
   const [url, setUrl] = useState(school);
   useEffect(() => {
     const image = new Image();
     image.src = url;
     image.onload = () => {
-      setimg(image);
+      setBackImg(image);
       setIsload(true);
     };
   }, [url]);
@@ -71,7 +71,7 @@ function App() {
 
       context.clearRect(0, 0, canvas.width, canvas.height);
       if (isload) {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        context.drawImage(backImg, 0, 0, canvas.width, canvas.height);
       }
       context.drawImage(sexCanvas, 0, 0, canvas.width, canvas.height);
     })();
