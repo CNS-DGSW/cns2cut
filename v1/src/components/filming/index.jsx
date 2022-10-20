@@ -23,6 +23,8 @@ function App() {
 
   const [image, setImage] = useState([]);
 
+  // -------- 
+
   const [bodypixnet, setBodypixnet] = useState();
   const [prevClassName, setPrevClassName] = useState();
 
