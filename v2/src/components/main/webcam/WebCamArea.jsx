@@ -19,7 +19,7 @@ const WebCamArea = ({
     // width: "100%",
     // height:"100%",
     width: 1280,
-    height: 720,
+    height: 1280,
     facingMode: "user",
   };
 
@@ -44,7 +44,7 @@ const WebCamArea = ({
       <Webcam
         ref={webcamRef}
         audio={false}
-        // width={1280}
+        // width={720}
         // height={720}
         // height="100%"
         width="100%"

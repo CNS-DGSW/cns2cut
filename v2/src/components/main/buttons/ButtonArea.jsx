@@ -24,7 +24,6 @@ const ButtonArea = ({
     setImage((prev) => [...prev, canvasRef.current.toDataURL("image/jpeg")]);
   }
   
-
   async function drawImage(webcam,context,canvas){
     const tempCanvas1 = document.createElement("canvas");
     tempCanvas1.width = canvas.width;
@@ -80,17 +79,15 @@ const ButtonArea = ({
     
   }
 
-  useEffect(() => {
-    canvasSetter(school)
-  },[bodypixnet])
 
   return (<B.Wrapper>
     <B.Button onClick={snapShot}>사진 찍기</B.Button>
     {
         image.map((e,idx) => (
-            <B.Img src={e} key={idx} />
-        ))
-    }
+            <B.Img src={e} key={idx} width="200px" height="200px" />
+            ))
+        }
+        <B.Button onClick={() => canvasSetter(school)}>사진 찍기</B.Button>
   </B.Wrapper>);
 };
 
