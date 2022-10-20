@@ -11,7 +11,8 @@ import Webcam from "react-webcam";
 import dgswback from "../../assets/dgswback.jpg";
 import main from "../../assets/main.jpg";
 import school from "../../assets/school.jpg";
-import cut from "../../assets/cut.jpeg";
+import cut from "../../assets/cut1.jpg";
+// import cut from "../../assets/cut.png";
 
 function App() {
   // ---

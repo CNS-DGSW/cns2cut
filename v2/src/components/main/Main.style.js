@@ -16,7 +16,7 @@ export const CamWrapper = styled.div`
     justify-content:center;
     align-items:center;
     .webcam{border-radius:15px;}
-    .canvas{position:absolute}
+    .canvas{position:absolute; width:1000px;}
 `
 export const ButtonWrapper = styled.div`
     height:100%;

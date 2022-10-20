@@ -82,13 +82,13 @@ button:last-child {
   background-color: white;
 }
 img {
-  width: 335px;
-  height: 245px;
+  width: 357px;
+  height: 250px;
 }
 
 .cut {
   margin: 0 auto;
-  width: 600px;
+  width: 400px;
   height: 650px;
 
   display: flex;
@@ -97,7 +97,7 @@ img {
 
   justify-content: center;
 
-  gap: 13px;
+  gap: 5px;
 
   position: absolute;
   top: -25px;
@@ -107,12 +107,14 @@ img {
 .img-frame {
   position: absolute;
   top: 0;
-  left:30px;
+  /* left:30px; */
   /* left: calc(50% - 500px); */
   z-index: -1;
 
-  width: 600px;
+  width: 450px;
+  /* width: 600px; */
   height: 650px;
+  object-fit: cover;
 }
 
 .absolute {
