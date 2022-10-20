@@ -7,5 +7,12 @@ export const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:center;
-    
+    .canvas{
+        position:absolute;
+        width:70%;
+        aspect-ratio:16/9;
+    }
+    .webcam{
+        /* visibility:hidden; */
+    }
 `
