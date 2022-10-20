@@ -85,66 +85,31 @@ function App() {
     webcam.height = canvas.height = webcam.videoHeight;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.classList.add(className);
+    
+    setUrl(className)
+
     if (bodypixnet) {
       drawimage(webcam, context, canvas);
     }
 
-    if (prevClassName) {
-      canvas.classList.remove(prevClassName);
-      setUrl(className);
-    } else {
-      setUrl(className);
-    }
-    canvas.classList.add(className);
   };
 
   // --------
 
-  const videoConstraints = {
-    // width:0,
-    // height:0,
-    width: 1280,
-    height: 720,
-    facingMode: "user",
-  };
-
-  function makeInterval() {}
-
   function snapshot() {
-    // console.log(webcamRef.current)
-    // console.log(canvasRef.current)
-
-    // var context = canvasRef.current.getContext("2d");
-
-    // context.drawImage(
-    //   webcamRef.current,
-    //   0,
-    //   0,
-    //   webcamRef.current.videoWidth,
-    //   webcamRef.current.videoHeight
-    // );
-
-    console.log("canvasRef", canvasRef);
-    console.log("canvasRef.current", canvasRef.current);
-    console.log(
-      "canvasRef.current.toDataURL",
-      canvasRef.current.toDataURL("image/webp")
-    );
     console.log(
       "canvasRef.current.toDataURL",
       canvasRef.current.toDataURL("image/jpeg")
     );
 
-    setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
-
-    // setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
+    setImage((prev) => [...prev, canvasRef.current.toDataURL("image/jpeg")]);
   }
 
   useEffect(() => {
     console.log(image);
     if (image.length === 2) {
       setisFin(true);
+
     }
   }, [image]);
 
@@ -166,7 +131,7 @@ function App() {
             width={1280}
             height={720}
             screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
+            // videoConstraints={videoConstraints}
             className="webcam"
           />
           <canvas ref={canvasRef} className="canvas" />

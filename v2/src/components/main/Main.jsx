@@ -15,10 +15,13 @@ import playGroundImg from "../../assets/school.jpg";
 const Main = () => {
     const canvasRef = useRef(null);
     const webcamRef = useRef(null);
-    // Manage the state of bodypixnet with useState
+    // bodypix
     const [bodypixnet, setBodypixnet] = useState();
+    // 찍힌 이미지
+    const [image,setImage] = useState([])
+    // 배경 이미지
+    const [backImage,setBackImage] = useState();
   
-    // Run only when the page is first loaded
     useEffect(() => {
       bodyPix.load().then((net) => {
         setBodypixnet(net);
@@ -30,34 +33,45 @@ const Main = () => {
       console.log(segmentation);
     };
   
-    const clickHandler = async () => {
+    const clickHandler = async (backImgName) => {
       const webcam = webcamRef.current.video;
       const canvas = canvasRef.current;
-      // Make the canvas, webcam, and video size all the same size.
+      // 켄바스, 웹캠, 비디오 사이즈를 같게 한다
       webcam.width = canvas.width = webcam.videoWidth;
       webcam.height = canvas.height = webcam.videoHeight;
+
       const context = canvas.getContext("2d");
+      // 켄바스 지우기
       context.clearRect(0, 0, canvas.width, canvas.height);
-      // If it is clicked before bodypixnet is set, it will cause an error, so just in case.
+
+      // 배경 변경
+      setBackImage(backImgName)
+
+      // 바디픽서가 없을 땐 에러가 뜨기 때문에
       if (bodypixnet) {
         drawimage(webcam);
       }
     };
+
+    // --------- 사진 찍기
+    function snapshot() {
+        setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
+      }
   return (
     <M.Wrapper>
       <M.CamWrapper>
         <Webcam
           ref={webcamRef}
           audio={false}
-          width={1280}
-          height={720}
+          width={1000}
           screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
           className="webcam"
         />
+        <canvas ref={canvasRef} className="canvas" />
       </M.CamWrapper>
       <M.ButtonWrapper>
-        <M.Button>사진1</M.Button>
+        <M.Header>대소고 인생네컷</M.Header>
+        <M.Button onClick={() => clickHandler(schoolBackImg)}>학교 운동장</M.Button>
         <M.TakeButton>사진1</M.TakeButton>
       </M.ButtonWrapper>
     </M.Wrapper>
