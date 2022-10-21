@@ -35,7 +35,14 @@ export const ButtonWrapper = styled.div`
     justify-content:space-around;
     align-items:center;
 `
-export const Header = styled.h1`
+export const Header = styled.header`
+    display:Flex;
+    align-items:center;
+`
+export const HeaderImg = styled.img`
+    width:200px;
+`
+export const Title = styled.h1`
     color:white;
 `
 

@@ -7,6 +7,8 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as bodyPix from "@tensorflow-models/body-pix";
 import Webcam from "react-webcam";
 
+import logo from "../../assets/logo.png"
+
 import cut from "../../assets/cut.jpeg";
 import schoolBackImg from "../../assets/dgswback.jpg";
 import schoolFrontImg from "../../assets/main.jpg";
@@ -95,21 +97,6 @@ const Main = () => {
     //     })();
     //   };
 
-    function setter(){
-        const webcam = webcamRef.current.video;
-        const canvas = canvasRef.current;
-        // 켄바스, 웹캠, 비디오 사이즈를 같게 한다
-        console.log(webcam.width)
-        console.log(canvas.width)
-        console.log(webcam.videoWidth)
-        console.log(webcam.videoHeight)
-        webcam.width = canvas.width = webcam.videoWidth;
-        webcam.height = canvas.height = webcam.videoHeight;
-  
-        const context = canvas.getContext("2d");
-        // 켄바스 지우기
-        context.clearRect(0, 0, canvas.width, canvas.height);
-    }
   
     const clickHandler = (backImgName) => {
       const webcam = webcamRef.current.video;
@@ -127,22 +114,30 @@ const Main = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       // 배경 변경
-      console.log(backImgName)
-      const img = new Image();
-      img.src = backImgName
-      img.onload = () => {
-          setBackImage(img)
+      if (backImgName){
+        const img = new Image();
+        img.src = backImgName
+        img.onload = () => {
+            setBackImage(img)
+        }
       }
+
 
       // 바디픽서가 없을 땐 에러가 뜨기 때문에
       if (bodypixnet) {
         drawimage(webcam,context,canvas);
+        // drawimage(...value);
       }
     };
 
     // --------- 사진 찍기
     function snapshot() {
-        setImage([...image, canvasRef.current.toDataURL("image/jpeg")]);
+        console.log(
+            "canvasRef.current.toDataURL",
+            canvasRef.current.toDataURL("image/jpeg")
+          );
+      
+          setImage((prev) => [...prev, canvasRef.current.toDataURL("image/jpeg")]);
       }
 
       const videoConstraints = {
@@ -166,8 +161,11 @@ const Main = () => {
         <canvas ref={canvasRef} className="canvas" />
       </M.CamWrapper>
       <M.ButtonWrapper>
-        <M.Header>대소고 인생네컷</M.Header>
-        <M.Button onClick={() => clickHandler(schoolBackImg)}>학교 운동장</M.Button>
+        <M.Header>
+            <M.HeaderImg src={logo} ></M.HeaderImg>
+            <M.Title>인생두컷</M.Title>
+        </M.Header>
+        <M.Button onClick={() => clickHandler(playGroundImg)}>학교 운동장</M.Button>
         <M.TakeButton onClick={()=> snapshot()}>사진 찍기</M.TakeButton>
         {
             image.map((e,idx) => (
