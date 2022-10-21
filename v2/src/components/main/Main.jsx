@@ -13,6 +13,9 @@ import cut from "../../assets/cut.jpeg";
 import schoolBackImg from "../../assets/dgswback.jpg";
 import schoolFrontImg from "../../assets/main.jpg";
 import playGroundImg from "../../assets/school.jpg";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { imageState } from "../../global/image";
 
 const Main = () => {
     const canvasRef = useRef(null);
@@ -20,7 +23,7 @@ const Main = () => {
     // bodypix
     const [bodypixnet, setBodypixnet] = useState();
     // 찍힌 이미지
-    const [image,setImage] = useState([])
+    const [image,setImage] = useRecoilState(imageState)
     // 배경 이미지
     const [backImage,setBackImage] = useState();
   
@@ -29,7 +32,16 @@ const Main = () => {
         setBodypixnet(net);
       });
     }, []);
+
+    const navigater = useNavigate()
+    useEffect(() => {
+        if (image.length === 2){
+            navigater("result")
+        }
+    },[image])
+
   
+    
     const drawimage = async (webcam,context,canvas) => {
       const originCanvas = document.createElement("canvas")
       originCanvas.width = webcam.videoWidth;
@@ -97,7 +109,7 @@ const Main = () => {
     //     })();
     //   };
 
-  
+    
     const clickHandler = (backImgName) => {
       const webcam = webcamRef.current.video;
       const canvas = canvasRef.current;
@@ -145,6 +157,7 @@ const Main = () => {
         // height: "720px",
         facingMode: "user"
       };
+
       
   return (
     <M.Wrapper>
@@ -166,12 +179,14 @@ const Main = () => {
             <M.Title>인생두컷</M.Title>
         </M.Header>
         <M.Button onClick={() => clickHandler(playGroundImg)}>학교 운동장</M.Button>
+        <M.Button onClick={() => clickHandler(schoolFrontImg)}>학교 기숙사동 정문</M.Button>
+        <M.Button onClick={() => clickHandler(schoolBackImg)}>학교 크로마키</M.Button>
         <M.TakeButton onClick={()=> snapshot()}>사진 찍기</M.TakeButton>
-        {
+        {/* {
             image.map((e,idx) => (
                 <img src={e} key={idx} />
             ))
-        }
+        } */}
       </M.ButtonWrapper>
     </M.Wrapper>
   );

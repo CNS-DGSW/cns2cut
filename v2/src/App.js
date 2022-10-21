@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import MainPage from "./components/main"
-import TakedPage from "./components/taked"
+import Result from "./components/result"
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage/>} ></Route>
-      <Route path="/" element={<TakedPage/>} ></Route>
+      <Route path="/result" element={<Result/>} ></Route>
     </Routes>
   );
 }
