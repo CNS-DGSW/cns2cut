@@ -15,8 +15,10 @@ export const ResultWrapper = styled.div`
 `;
 
 export const ResultContent = styled.div`
+  /* width: 450px;
+  height: 700px; */
   width: 450px;
-  height: 700px;
+  height: 675px;
   position: absolute;
   /* background-color: black; */
   background-color: ${(props) => props.backColor};
@@ -26,17 +28,19 @@ export const ResultContent = styled.div`
     print-color-adjust: exact !important;
     left: 0px;
     top: 0px;
-  }
+    @page {margin:0px}
+}
+  
 
   box-sizing:border-box;
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding-top:20px;
+  padding-top:30px;
   
   gap:15px;
   >img{
-    width:85%;
+    width:80%;
   }
 `;
 
@@ -57,12 +61,15 @@ export const ButtonWrapper = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   h2 {
-    margin: 10px 0px;
-  }
+    margin-bottom: 10px;
+    margin-top:0px;
+}
 `;
 export const BasicBackWrapper = styled.div`
   width: 80%;
-
+  h2{
+    margin-top:25px;
+  }
 `;
 
 export const BasicBacks = styled.div`
@@ -90,9 +97,17 @@ export const SelectBackWrapper = styled.div`
 `;
 
 export const ImgBackWrapper = styled.div`
-  /* width: 300px;
-  height: 300px; */
+
 `;
+export const ImgBack = styled.div`
+  display:flex;
+  flex-wrap:wrap;
+  > div{
+    width:400px;
+    height:150px;
+    background-color:tomato;
+  }
+`
 
 
 export const ExitWrapper = styled.div`

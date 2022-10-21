@@ -69,7 +69,10 @@ const Result = () => {
                 </R.SelectBackWrapper>
                 <R.ImgBackWrapper>
                         <h2>이미지 선택</h2>
-                        
+                        <R.ImgBack>
+                        <div></div>
+                        <div></div>
+                        </R.ImgBack>
                 </R.ImgBackWrapper>
             </R.ButtonWrapper>
             <R.ExitWrapper>
