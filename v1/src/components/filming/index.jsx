@@ -11,8 +11,8 @@ import Webcam from "react-webcam";
 import dgswback from "../../assets/dgswback.jpg";
 import main from "../../assets/main.jpg";
 import school from "../../assets/school.jpg";
-import cut from "../../assets/cut1.jpg";
-// import cut from "../../assets/cut.png";
+// import cut from "../../assets/cut1.jpg";
+import cut from "../../assets/cut.png";
 
 function App() {
   // ---
@@ -62,6 +62,7 @@ function App() {
       const segmentation = await bodypixnet.segmentPerson(webcam);
       const mask = bodyPix.toMask(segmentation);
       tempCtx.putImageData(mask, 0, 0);
+      
       // draw original image
       sexCtx.drawImage(webcam, 0, 0, canvas.width, canvas.height);
       // use destination-out, then only masked area will be removed

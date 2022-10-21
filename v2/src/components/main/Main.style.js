@@ -15,8 +15,17 @@ export const CamWrapper = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    .webcam{border-radius:15px;}
-    .canvas{position:absolute; width:1000px;}
+    .webcam{
+        border-radius:15px;
+        width:960px;
+        height:720px;
+    }
+    .canvas{
+        position:absolute;
+        width:960px;
+        height:720px;
+        border-radius:15px;
+    }
 `
 export const ButtonWrapper = styled.div`
     height:100%;

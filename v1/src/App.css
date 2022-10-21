@@ -81,7 +81,7 @@ button:last-child {
   z-index: 10;
   background-color: white;
 }
-img {
+/* img {
   width: 357px;
   height: 250px;
 }
@@ -103,17 +103,45 @@ img {
   top: -25px;
   left: 25px;
 }
-
 .img-frame {
   position: absolute;
   top: 0;
-  /* left:30px; */
-  /* left: calc(50% - 500px); */
   z-index: -1;
 
   width: 450px;
-  /* width: 600px; */
   height: 650px;
+  object-fit: cover;
+} */
+
+img {
+  width: 395px;
+  height: 275px;
+}
+
+.cut {
+  margin: 0 auto;
+  width: 400px;
+  height: 716px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  position: absolute;
+  top: -25px;
+  left: 25px;
+}
+.img-frame {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+
+  width: 450px;
+  height: 720px;
   object-fit: cover;
 }
 
