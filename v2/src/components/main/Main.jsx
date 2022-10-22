@@ -30,6 +30,8 @@ const Main = () => {
       bodyPix.load().then((net) => {
         setBodypixnet(net);
       });
+      
+      // function 
     }, []);
 
     const navigater = useNavigate()
@@ -124,6 +126,8 @@ const Main = () => {
       // 켄바스 지우기
       context.clearRect(0, 0, canvas.width, canvas.height);
 
+      // const [webcam,context,canvas] = webcamSetter();
+
       // 배경 변경
       if (backImgName){
         const img = new Image();
@@ -147,7 +151,7 @@ const Main = () => {
             "canvasRef.current.toDataURL",
             canvasRef.current.toDataURL("image/jpeg")
           );
-      
+          
           setImage((prev) => [...prev, canvasRef.current.toDataURL("image/jpeg")]);
       }
 
