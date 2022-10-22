@@ -9,7 +9,6 @@ import Webcam from "react-webcam";
 
 import logo from "../../assets/logo.png"
 
-import cut from "../../assets/cut.jpeg";
 import schoolBackImg from "../../assets/dgswback.jpg";
 import schoolFrontImg from "../../assets/main.jpg";
 import playGroundImg from "../../assets/school.jpg";
@@ -41,7 +40,7 @@ const Main = () => {
     },[image])
 
   
-    
+
     const drawimage = async (webcam,context,canvas) => {
       const originCanvas = document.createElement("canvas")
       originCanvas.width = webcam.videoWidth;

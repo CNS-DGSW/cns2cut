@@ -60,7 +60,7 @@ export const ResultImg = styled.img`
     height:100%;
     position:absolute;
     z-index:1;
-    object-fit:cover;
+    object-fit:cover; 
 `
 
 export const ResultLogo = styled.div`
@@ -99,6 +99,9 @@ export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  @media print {
+    display:none;
+  }
   h2 {
     margin-bottom: 10px;
     margin-top: 0px;
@@ -152,7 +155,9 @@ export const CommentWrapper = styled.div`
   }
 `;
 
-export const CommentOptionWrapper = styled.div``;
+export const CommentOptionWrapper = styled.div`
+  
+`;
 export const CommentOptions = styled.div`
   display: Flex;
   align-items:Center;
