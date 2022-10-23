@@ -12,6 +12,8 @@ import logo from "../../assets/logo.png";
 import schoolBackImg from "../../assets/dgswback.jpg";
 import schoolFrontImg from "../../assets/main.jpg";
 import playGroundImg from "../../assets/school.jpg";
+import lupi from "../../assets/lupi.png"
+import spongibab from "../../assets/spongibab.jpg"
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { imageState } from "../../global/image";
@@ -203,9 +205,16 @@ const Main = () => {
       </M.CamWrapper>
       <M.ButtonWrapper>
         <M.Header>
+          
           <M.HeaderImg src={logo}></M.HeaderImg>
           <M.Title>인생두컷</M.Title>
         </M.Header>
+        <M.Button onClick={() => clickHandler(lupi)}>
+          잔망루피
+        </M.Button>
+        <M.Button onClick={() => clickHandler(spongibab)}>
+          스폰지밥
+        </M.Button>
         <M.Button onClick={() => clickHandler(playGroundImg)}>
           학교 운동장
         </M.Button>
